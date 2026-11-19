@@ -40,15 +40,16 @@ public class server {
                 DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
             ){
                 //for loop going over jpeg images
-                String filename = "compressed1.jpg";
-                byte[] image;
+                for(int pic = 1; pic <= 10; pic++){
+                    String filename = "pics_small/compressed" + pic + ".jpg";
+                    byte[] image;
             
                     try{
                         image = Files.readAllBytes(Paths.get(filename));
                     }catch(IOException e){
                         out.writeUTF("Error: could not read " + filename);
                         out.flush();
-                        continue;
+                        break;
                     }
 
                     out.writeUTF("OK");
@@ -56,6 +57,8 @@ public class server {
                     out.write(image);
                     out.flush();
                     System.out.println("Sent" + filename);
+                }
+            
                 
             }catch(IOException e){
                 System.out.println("Client disconnected");
